@@ -1,1 +1,3 @@
 # LogFormatter
+testmode
+hogehoge
