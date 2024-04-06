@@ -1,0 +1,28 @@
+// 中身
+p_elements = document.querySelectorAll('#areaWorkspace p')
+
+    <p style="color:#888888;">
+      <span> [メイン]</span>
+      <span>GM</span> :
+      <span>
+        サンプルテキスト 
+      </span>
+    </p>
+
+innerHTML:
+      <span> [メイン]</span>
+      <span>GM</span> :
+      <span>
+        サンプルテキスト 
+      </span>
+
+innerText: "[メイン] GM : サンプルテキスト"
+outerHTML: 
+    <p style="color:#888888;">
+      <span> [メイン]</span>
+      <span>GM</span> :
+      <span>
+        サンプルテキスト 
+      </span>
+    </p>
+outerText: "[メイン] GM : サンプルテキスト"

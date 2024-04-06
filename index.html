@@ -3,11 +3,30 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     
     <title>DRY式LogFormatter</title>
     <meta name="description" content="" />
-    
-    <style></style>
+    <link rel="stylesheet" type="text/css" href="./reset.css" />
+    <link rel="stylesheet" type="text/css" href="./style.css">
   </head>
+  <body>
+    
+
+    <div class="main">
+        <h1 style="text-align: center"><b>DRY式LogFormatter</b></h1>
+        
+        <!-- アップロードボタン -->
+        ※ココフォリア形式にのみ対応<br><br>
+        <input type="file" id="fileUploader" onChange="readHTML(this)"><br>
+        タイトル：<input type="text" style="width:180px" id="titleName"       value=''><br>
+        <button id="btnConvert" onClick="convert()" disabled>変換・ダウンロード</button><br>
+    </div>
+
+    <div class="main invisible">
+        <div id="areaWorkspace"></div>
+    </div>
+
+    <script src="./main.js"></script>
+  </body>

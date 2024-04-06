@@ -1,0 +1,20 @@
+body{
+	background: #efefef;
+}
+div.main{
+	background: #ffffff;
+	color: #1f3134;
+	padding:10px;
+	margin: 30px auto;
+}
+
+div.invisible{
+    /*display:none*/
+}
+
+@media screen and (min-width: 1024px) {
+	.main{width:1024px;}
+}
+@media screen and (max-width: 1023px) {
+	.main{width:95%;}
+}
