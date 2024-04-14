@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>おためし</title>
+<!--Tekeyチャットログv2-->
+<style>
+:root {
+--color-dark: rgb(66, 66, 66);
+--color-white: rgb(255, 255, 255);
+--color-gray: rgb(136, 136, 136);
+--color-01: rgb(255, 100, 100);
+--color-02: rgb(255, 255, 100);
+--color-03: rgb(100, 255, 100);
+--color-04: rgb(100, 255, 255);
+--color-05: rgb(150, 100, 255);
+--color-06: rgb(255, 100, 150);
+--color-07: rgb(150, 255, 100);
+--color-08: rgb(100, 150, 255);
+--color-09: rgb(255, 100, 255);
+--color-10: rgb(100, 255, 150);
+--color-11: rgb(255, 150, 100);
+--color-12: rgb(100, 100, 255);
+}
+body.dark {
+background-color: var(--color-dark);
+}
+body.dark .controll {
+background-color: rgba(255, 255, 255, 0.8);
+}
+body.dark .header div {
+color: var(--color-dark);
+}
+.chatlog-wrap {
+position: fixed;
+padding-top: 8px;
+top: 37px;
+left: 8px;
+right: 0;
+bottom: 8px;
+}
+.chatlog {
+height: 100%;
+overflow-y: auto;
+}
+.chatlog div {
+padding: 4px;
+}
+.chatlog span {
+color: var(--color-gray);
+font-size: 12px;
+margin-left: 8px;
+}
+.chatlog:not(.timestamp-show) span {
+display: none;
+}
+.filter-diceroll div:not(.diceroll) {
+display: none;
+}
+.controll {
+position: fixed;
+top: 0;
+left: 0;
+padding: 4px 6px;
+width: 100%;
+box-sizing: border-box;
+background-color: rgba(255, 255, 255, 0.9);
+border-bottom: solid 1px rgba(0, 0, 0, 0.5);
+}
+.controll input[type=checkbox] {
+margin-right: 8px;
+}
+.controll.hidden .controll-buttons {
+display: none;
+}
+.controll-buttons label {
+padding: 4px 18px 2px 8px;
+}
+.header {
+display: flex;
+align-items: flex-end;
+padding-bottom: 4px;
+border-bottom: 1px dotted rgba(0, 0, 0, 0.5);
+cursor: pointer;
+}
+.header h1 {
+margin: 0 4px;
+font-size: 1.2em;
+}
+.header div {
+color: var(--color-gray);
+font-size: 12px;
+margin: 0 0 4px 8px;
+}
+.header div::before {
+content: "ログ保存日：";
+} 
+.controll.hidden .header {
+border-bottom: none;
+padding-bottom: 0;
+margin-top: 0;
+}
+.controll-checkbox-icon {
+display: block;
+margin: 0 8px 0 auto;
+transform: rotate(0deg);
+}
+.controll-checkbox {
+position: absolute;
+z-index: -1;
+opacity: 0;
+}
+.controll-checkbox:checked+.controll-checkbox-icon {
+transform: rotate(180deg);
+margin: 0 8px 4px auto;
+}
+.setting-list {
+display: flex;
+flex-wrap: wrap;
+border-top: dotted 1px rgba(0, 0, 0, 0.5);
+}
+.tab-list {
+display: flex;
+flex-wrap: wrap;
+}
+.chatlog div:not(.tab1) {
+position: relative;
+font-size: 0.8em;
+padding: 6px 4px 6px 12px;
+}
+.chatlog div:not(.tab1)::before {
+content: "";
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+left: 0;
+opacity: 0.08;
+}
+.tab-list label:nth-child(2) { background-color: var(--color-01); }
+.tab-list label:nth-child(3) { background-color: var(--color-02); }
+
+.chatlog .tab2 { margin-left: 12em; border-left: solid 4px var(--color-01); } .chatlog .tab2::before { background-color: var(--color-01); }
+.chatlog .tab3 { margin-left: 16em; border-left: solid 4px var(--color-02); } .chatlog .tab3::before { background-color: var(--color-02); }
+
+.chatlog.tab1-hidden .tab1,
+.chatlog.tab2-hidden .tab2,
+.chatlog.tab3-hidden .tab3 { display: none; } 
+@media screen and (max-width:480px) {
+.controll.hidden .header {
+margin-top: 2px;
+}
+.controll-checkbox-icon {
+margin: 0 8px -2px 0;
+}
+.controll-checkbox:checked+.controll-checkbox-icon {
+margin: 0 8px 0 0;
+}
+.header {
+padding-bottom: 7px;
+}
+.header h1 {
+font-size: 0.8em;
+}
+.header div {
+font-size: 10px;
+margin: 0 4px 1px auto;
+}
+.header div::before {
+content: "";
+}
+.chatlog div {
+padding-top: 8px;
+padding-bottom: 8px;
+}
+.chatlog div.tab1 {
+text-indent: -1em;
+padding-left: 1em;
+}
+.chatlog div:not(.tab1) {
+margin-left: 3em;
+text-indent: -1em;
+padding-left: 2em;
+}
+.chatlog b {
+display: block;
+}
+.chatlog span {
+display: block;
+text-align: end;
+color: var(--color-gray);
+font-size: 10px;
+margin: 0 16px 4px 0;
+}
+}
+</style>
+</head>
+<body>
+<div class="chatlog-wrap">
+<div class="chatlog">
+<div class="tab1" style="color: #00AA00;"><b>Tekey：</b>「ドリュウ成亜」がログインしました。<span>[23:28]</span></div>
+<div class="tab1" style="color: #000000;"><b>GM：</b>テスト<span>[23:28]</span></div>
+<div class="tab1 diceroll" style="color: #000000;"><b>GM：</b>2d6<br>
+SwordWorld2.5 : (2D6) → 5[2,3] → 5<span>[23:28]</span></div>
+<div class="tab1 diceroll" style="color: #000000;"><b>GM：</b>k20<br>
+SwordWorld2.5 : KeyNo.20c[10] → 2D:[4,1]=5 → 3<span>[23:28]</span></div>
+<div class="tab1" style="color: #9f0500;"><b>PC1：</b>おためし<span>[23:29]</span></div>
+<div class="tab1" style="color: #0062b1;"><b>PC2：</b>ログ出力<span>[23:29]</span></div>
+<div class="tab1" style="color: #0062b1;"><b>PC2：</b>実験用<span>[23:29]</span></div>
+<div class="tab1 diceroll" style="color: #0062b1;"><b>PC2：</b>2d6<br>
+SwordWorld2.5 : (2D6) → 7[4,3] → 7<span>[23:29]</span></div>
+<div class="tab2" style="color: #000000;"><b>GM：</b>さぶ<span>[23:30]</span></div>
+<div class="tab3" style="color: #000000;"><b>GM：</b>てきとーな話<span>[23:30]</span></div>
+
+</div>
+</div>
+<div class="controll hidden">
+<label for="expansion">
+<div class="header">
+<h1>おためし</h1><div>2024/03/23</div>
+<input id="expansion" class="controll-checkbox" type="checkbox" />
+<span class="controll-checkbox-icon"><svg height="18px" viewBox="0 0 24 24" width="18px">
+<path d="M0 0h24v24H0z" fill="none" />
+<path d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z" />
+</svg>
+</span>
+</div>
+</label>
+<div class="controll-buttons">
+<div class="tab-list">
+<label class="tab-checkbox"><input id="tab1" type="checkbox" checked="true" />メイン</label>
+<label class="tab-checkbox"><input id="tab2" type="checkbox" checked="true" />サブ</label>
+<label class="tab-checkbox"><input id="tab3" type="checkbox" checked="true" />雑談</label>
+
+</div>
+<div class="setting-list">
+<label class="timestamp-checkbox">
+<input type="checkbox" />タイムスタンプ表示
+</label>
+<label class="diceroll-checkbox">
+<input type="checkbox" />ダイスロール結果抽出
+</label>
+<label class="fontsize-input">文字サイズ <input type="number" style="font-size: 16px;" min="10" max="24" value="16" /> px
+</label>
+</div>
+</div>
+</details>
+</div>
+<script type="text/javascript">
+const chatlog = document.getElementsByClassName("chatlog")[0];
+const chatlogWrap = document.getElementsByClassName("chatlog-wrap")[0];
+const header = document.getElementsByClassName("header")[0];
+const controll = document.getElementsByClassName("controll")[0];
+const timestampCheckbox =
+document.getElementsByClassName("timestamp-checkbox")[0];
+const dicerollCheckbox =
+document.getElementsByClassName("diceroll-checkbox")[0];
+const fontsizeInput =
+document.getElementsByClassName("fontsize-input")[0];
+const controllCheckbox =
+document.getElementsByClassName("controll-checkbox")[0];
+const tabCheckboxes = document.getElementsByClassName("tab-checkbox");
+const chatlogHeight = header.clientHeight + 8;
+chatlogWrap.style = "top: " + chatlogHeight + "px;"
+function changeTab(event) {
+const tab = event.target.id;
+const tabHidden = " " + tab + "-hidden";
+if (event.target.checked) {
+chatlog.className = chatlog.className.replace(tabHidden, "");
+} else {
+chatlog.className += tabHidden;
+}
+}
+function changeTimestamp(event) {
+if (event.target.checked) {
+chatlog.className += " timestamp-show";
+} else {
+chatlog.className = chatlog.className.replace(" timestamp-show", "");
+}
+}
+function changeDiceroll(event) {
+if (event.target.checked) {
+chatlog.className += " filter-diceroll";
+} else {
+chatlog.className = chatlog.className.replace(
+" filter-diceroll",
+""
+);
+}
+}
+function chanceFontSize(event) {
+if (event.target.value) {
+const chatlogHeight = header.clientHeight + 8;
+chatlogWrap.style = "top: " + chatlogHeight + "px;" + "font-size: " + event.target.value + "px;";
+}
+}
+function changeControll(event) {
+if (event.target.checked) {
+controll.className = "controll";
+} else {
+controll.className = "controll hidden";
+}
+}
+for (let i = 0; i < tabCheckboxes.length; i++) {
+const element = tabCheckboxes[i];
+element.addEventListener("change", changeTab);
+}
+timestampCheckbox.addEventListener("change", changeTimestamp);
+dicerollCheckbox.addEventListener("change", changeDiceroll);
+fontsizeInput.addEventListener("change", chanceFontSize);
+controllCheckbox.addEventListener("change", changeControll);
+</script>
+</body>
+</html>
