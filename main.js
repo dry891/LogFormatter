@@ -62,12 +62,14 @@ function getActorColor(input){
         let colorList = input.filter(e => e['actor'] === act).map(e => e['colorCode']);
         console.log('-----')
         console.log(colorList)
-        console.log(mode(colorList))
     })
 }
 
 // 最頻値を求める関数
 function mode(input){
-    const c = (x, i, v) => (x[i] ? x[i].add(v) : x[i] = new Set(v), i);
-    return input.reduce(function (x, v) { return (this.set(v, c(x, (this.get(v) + 1 || 1), v)), x); }.bind(new Map), []).pop();
+
+    return output = input.sort().reduce((accumulator, currentValue, i, arr) => {
+        console.log(accumulator, currentValue, i, arr)
+        return currentValue
+    });
 }
