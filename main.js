@@ -1,11 +1,19 @@
 /*  ----------------------------------------------------------------------------
     0．ページを開いたときの処理
 ----------------------------------------------------------------------------　*/
+//https://dry891.github.io/LogFormatter/
 test()
 function test(){
-    fetch('./templates/editor.html')
+    fetch('https://dry891.github.io/LogFormatter/templates/editor.html')
         .then(response => response.text())
-        .then(text => console.log(text))
+        .then(data => {
+            const parser = new DOMParser();
+            const html = parser.parseFromString(data, "text/html");
+            const boxs = html.querySelectorAll('#id_configActor');
+            const file_area = document.getElementById('area_counfigActor');
+            console.log(html)
+            for(var box of boxs) {file_area.appendChild(box);}
+        })
 }
 
 
