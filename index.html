@@ -12,7 +12,13 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
   </head>
   <body>
-    <div id="test"></div>
+    <template id="template_congigActor">
+      <ul class="congigActor">
+        <li>発言者：<input type="text" class="configInputActorName" placeholder='' value='' data-id="" disabled></li>
+        <li>文字色：<input type="text" class="configInputActorColor" placeholder='' value='' data-id="">
+          <input type="color" value="#888888" data-id=""></li>
+      </ul>
+    </template>
 
     <div class="main">
         <h1 style="text-align: center"><b>DRY式LogFormatter</b></h1>
@@ -20,8 +26,13 @@
         <!-- アップロードボタン -->
         ※ココフォリア形式にのみ対応<br><br>
         <input type="file" accept="text/html" id="fileUploader"><br>
-        タイトル：<input type="text" style="width:180px" id="titleName"       value=''><br>
+        タイトル：<input type="text" style="width:180px" id="titleName" value=''><br>
         <button id="btnConvert" onClick="convert()" disabled>変換・ダウンロード</button><br>
+        <br>
+        <fieldset id="configFieldActors" disabled>
+          <legend>発言者別設定</legend>
+          <div id="area_counfigActor"></div>
+        </fieldset>
     </div>
 
     <div class="main invisible">

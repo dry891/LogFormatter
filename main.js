@@ -1,4 +1,15 @@
 /*  ----------------------------------------------------------------------------
+    0．ページを開いたときの処理
+----------------------------------------------------------------------------　*/
+test()
+function test(){
+    fetch('./templates/editor.html')
+        .then(response => response.text())
+        .then(text => console.log(text))
+}
+
+
+/*  ----------------------------------------------------------------------------
     １．ファイル選択時の処理
 ----------------------------------------------------------------------------　*/
 const fileInput = document.querySelector("#fileUploader");
@@ -8,8 +19,9 @@ fileInput.addEventListener('change',  async (event) => {
     await readHTML(file);// HTMLファイルを読み込む
     readTitle(file);// タイトルをファイル名から取得
     const  chatlog = readChatlog();// チャットログを配列化
-    actorColor = getActorColor(chatlog);// 発言者とその色を取得
-    console.log(actorColor)
+    const actorList = getActorList(chatlog);// 発言者とその色を取得し、idを付ける
+    console.log(actorList)
+    createConfigActor(actorList)
 });
 
 // ファイル読み込み処理
@@ -24,6 +36,7 @@ function readHTML(input){
             document.getElementById("areaWorkspace").innerHTML = content;
             // 「変換＆ダウンロード」ボタンを有効化
             document.getElementById("btnConvert").removeAttribute("disabled");
+            document.getElementById("configFieldActors").removeAttribute("disabled");
             // 返すresultを用意
             resolve(e.currentTarget.result);
         };
@@ -58,12 +71,19 @@ function readChatlog(){
     return logs;
 };
 
-// 発言者毎の色を取得する
-function getActorColor(input){
+// 発言者とその色を取得し、idを付ける
+function getActorList(input){
     console.log('getActorColor')
     let actorList = Array.from(new Set(input.map(e => e['actor'])));// actor一覧（重複無し）を取得
     let output = {}
-    actorList.map(act => {output[act] = mode(input.filter(e => e['actor'] === act).map(e => e['colorCode']))});// 各actorのcolorCodeを一覧で取得し、その最頻値を返す
+    actorList.reduce((acc,act) => {
+        console.log(acc)
+        output['actorId-'+acc] = {
+            actor : act,
+            colorCode : mode(input.filter(e => e['actor'] === act).map(e => e['colorCode']))
+        }
+        return acc+1
+    },0);
     return output
 }
 
@@ -80,4 +100,12 @@ function mode(input){
         return value
     });
     return output
+}
+
+function createConfigActor(input){
+    const cloneConfingActor = templateCongigActor.content.cloneNode(true);
+    console.log(cloneConfingActor)
+    let a = cloneConfingActor.children[0].children[0]
+    console.log(a)
+    document.getElementById('area_counfigActor').appendChild(cloneConfingActor)
 }
