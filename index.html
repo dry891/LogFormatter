@@ -12,12 +12,12 @@
     <link rel="stylesheet" type="text/css" href="./style.css">
   </head>
   <body>
-    <template id="template_congigActor">
-      <ul class="congigActor">
-        <li>発言者：<input type="text" class="configInputActorName" placeholder='' value='' data-id="" disabled></li>
-        <li>文字色：<input type="text" class="configInputActorColor" placeholder='' value='' data-id="">
-          <input type="color" value="#888888" data-id=""></li>
-      </ul>
+    <template id="areaTemplate_configActor">
+        <ul class="congigActor">
+          <li>発言者：<input type="text" class="inputActorName" placeholder='プレイヤー１'></li>
+          <li>色設定：<input type="text" class="inputActorColor" placeholder='#888888' onChange='colorChange(this)'>
+            <input type="color" class="inputColorPicker" value="#888888" onChange='colorChange(this)'></li>
+        </ul>
     </template>
 
     <div class="main">
@@ -29,9 +29,8 @@
         タイトル：<input type="text" style="width:180px" id="titleName" value=''><br>
         <button id="btnConvert" onClick="convert()" disabled>変換・ダウンロード</button><br>
         <br>
-        <fieldset id="configFieldActors" disabled>
+        <fieldset id="configActors" disabled>
           <legend>発言者別設定</legend>
-          <div id="area_counfigActor"></div>
         </fieldset>
     </div>
 

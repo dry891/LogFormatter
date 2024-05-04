@@ -18,3 +18,7 @@ div.invisible{
 @media screen and (max-width: 1023px) {
 	.main{width:95%;}
 }
+
+.congigActor:not(.congigActor:first-of-type) {
+	border-top: 1px solid #666;
+}

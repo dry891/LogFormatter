@@ -1,26 +1,45 @@
-<!doctype html>
- 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    
-    <title>test</title>
-    <meta name="description" content="" />
-    <link rel="stylesheet" type="text/css" href="./reset.css" />
-    <link rel="stylesheet" type="text/css" href="./style.css">
-  </head>
-  <body>
-    <div id="test"></div>
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>templateタグの使い方</title>
+</head>
+<body>
+  <!-- テンプレートとして表示したい内容 -->
+  <template id="template">
+    <tr>
+      <th class="date"></th>
+      <td class="weather"></td>
+    </tr>
+  </template>
 
-    <div class="main">
-      <h1>TEST PAGE</h1>
-    </div>
+  <!-- テンプレート表示エリア -->
+  <table id="container" border="1">
+    <tr><th>日付</th><th>天気</th></tr>
+  </table>
 
-    <div class="main invisible">
-        <div id="areaWorkspace"></div>
-    </div>
+  <script>
+    // データ
+    var arr = [
+      {"date":"09/17", "weather":"晴れ"},
+      {"date":"09/18", "weather":"曇りのち雨"},
+      {"date":"09/19", "weather":"曇りのち晴れ"}
+    ];
 
-    <script src="./test.js"></script>
-  </body>
+    // template要素を取得
+    var template = document.getElementById('template');
+
+    for(var i =0; i < arr.length; i++){
+      // template要素の内容を複製
+      var clone = template.content.cloneNode(true);
+
+      // 複製したtemplate要素にデータを挿入
+      clone.querySelector('.date').textContent = arr[i].date;
+      clone.querySelector('.weather').textContent = arr[i].weather;
+
+      // div#containerの中に追加
+      document.getElementById('container').appendChild(clone);
+    }
+  </script>
+</body>
+</html>
