@@ -35,7 +35,7 @@ function readHTML(input){
             document.getElementById("areaWorkspace").innerHTML = content;
             // 「変換＆ダウンロード」ボタンを有効化
             document.getElementById("btnConvert").removeAttribute("disabled");
-            document.getElementById("configActors").removeAttribute("disabled");
+            document.getElementById('checkColorSet').checked && document.getElementById("configActors").removeAttribute("disabled");
             // 返すresultを用意
             resolve(e.currentTarget.result);
         };
@@ -74,7 +74,7 @@ function getActorList(input){
     let output = [];
     actorList.reduce((acc,act) => {
         output.push({
-            id : acc,
+            id : "actorId_" + acc,
             actor : act,
             colorCode : mode(input.filter(e => e['actor'] === act).map(e => e['colorCode']))
         })
@@ -100,7 +100,7 @@ function mode(input){
 // 発言者idを付けたchatlogを返す
 function appendActorId(actorList,log){
     return log.map(mes => {
-        mes.actId = actorList.find(v => v.actor === mes.actor).id
+        mes.actorId = actorList.find(v => v.actor === mes.actor).id
         return mes
     });
 }
@@ -110,7 +110,7 @@ function settingEditor(input){
     areaElement.removeChild(areaElement.lastElementChild);
     input.forEach(data => {
         let clone = elem_configActor.content.cloneNode(true);
-        clone.querySelector(".configActor").setAttribute("id","configActorId_" + data['id']);
+        clone.querySelector(".configActor").setAttribute("id","configActor_" + data['id']);
         clone.querySelector(".inputActorName").setAttribute("value",data['actor']);
         clone.querySelector(".inputActorName").setAttribute("placeholder",data['actor']);
         clone.querySelector(".inputActorColor").setAttribute("value",data['colorCode']);
@@ -123,12 +123,20 @@ function settingEditor(input){
 /*  ----------------------------------------------------------------------------
     ２．エディタ操作時の処理
 ----------------------------------------------------------------------------　*/
+/*document.querySelector('#checkColorSet').addEventListener('change', async (e) => {
+    if(document.getElementById('checkColorSet').checked && !document.getElementById('btnConvert').disabled){
+        document.getElementById("configActors").removeAttribute("disabled")
+    }else{
+        document.getElementById("configActors").setAttribute("disabled",true)
+    }
+});*/
+
 // 色変更時
 function colorChange(element){
     let value = element.value;
     element.parentElement.children[0].value = value;
     element.parentElement.children[1].value = value;
-}
+};
 
 /*  ----------------------------------------------------------------------------
     ３．出力
@@ -138,8 +146,8 @@ document.querySelector('#btnConvert').addEventListener('click', async (e) => {
     const settedActorList = readActorList();
     const templates = await loadTemplates();
     const chat = makeChat(chatlog,templates.posts);
-
-    const content = makeHTML(templates.all,title,chat,0);
+    const style = templates.style + makeActorStyle(settedActorList,templates.actstyle);
+    const content = makeHTML(templates.all,title,chat,style);
     //const html = new DOMParser().parseFromString(content, "text/html");
     download(title + "_整形後",content);
 });
@@ -158,7 +166,7 @@ function readActorList(){
     let output = []
     Array.from(elems).map(elem => {
         output.push({
-            id : Number(elem.id.substring(elem.id.indexOf("_")+1)),
+            id : elem.id.substring(elem.id.indexOf("_")+1),
             actor : elem.querySelector(".inputActorName").value,
             colorCode : elem.querySelector(".inputActorColor").value
         });
@@ -171,26 +179,44 @@ async function loadTemplates(){
     return {
         all : await fetch("./templates/template.html").then(r => r.text()),
         posts : await fetch("./templates/post.html").then(r => r.text()),
-        style : await fetch("./templates/template.html").then(r => r.text())
-    }
-}
+        style : await fetch("./templates/template.css").then(r => r.text()),
+        actstyle : await fetch("./templates/actorclass.css").then(r => r.text())
+    };
+};
 
 /* ---------- 出力内容の編集 ---------- */
 function makeHTML(temp,title,chat,style){
     return temp.replace("{{title}}",title)
         .replace("{{chat}}",chat)
-}
+        .replace("{{style}}",style);
+};
 
 // 発言内容
 function makeChat(log,temp){
     let output = ""
+    const mode = document.getElementById('checkColorSet').checked
     log.forEach(p => {
+        let c =""
+        !mode && (c = 'style="color:'+ p.colorCode +'"');
         let text = temp.replace('{{tabclass}}',p.tab)
-        .replace('{{actorclass}}','actId_'+p.actId)
+        .replace('{{actorclass}}',p.actorId)
         .replace('{{tabName}}',p.tab)
         .replace('{{actorName}}',p.actor)
-        .replace('{{message}}',p.message);
+        .replace('{{message}}',p.message)
+        .replace('{{colorset}}',c);
         output = output + text
     });
     return output
+};
+
+function makeActorStyle(actors,temp){
+    if(document.getElementById('checkColorSet').checked){
+        let output = "\n"
+        actors.forEach(actor => {
+            output = output + temp.replace("actorclass",actor.id).replace("#888888",actor.colorCode)
+        })
+        return output
+    }else{
+        return ""
+    }
 };
