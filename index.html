@@ -13,7 +13,7 @@
   </head>
   <body>
     <template id="areaTemplate_configActor">
-        <ul class="congigActor">
+        <ul class="configActor">
           <li>発言者：<input type="text" class="inputActorName" placeholder='プレイヤー１'></li>
           <li>色設定：<input type="text" class="inputActorColor" placeholder='#888888' onChange='colorChange(this)'>
             <input type="color" class="inputColorPicker" value="#888888" onChange='colorChange(this)'></li>
@@ -26,10 +26,17 @@
         <!-- アップロードボタン -->
         ※ココフォリア形式にのみ対応<br><br>
         <input type="file" accept="text/html" id="fileUploader"><br>
-        タイトル：<input type="text" style="width:180px" id="titleName" value=''><br>
-        <button id="btnConvert" onClick="convert()" disabled>変換・ダウンロード</button><br>
         <br>
-        <fieldset id="configActors" disabled>
+        <button id="btnConvert" disabled>変換・ダウンロード</button><br>
+        <br>
+        <fieldset class="config" id="configGlobal">
+          <legend>全体設定</legend>
+          タイトル：<input type="text" style="width:180px" id="titleName" value=''><br>
+          <br>
+          <input type="checkbox" id="colorSetting" checked><label for="colorSetting">色設定を統一する</label>
+        </fieldset>
+        <br>
+        <fieldset class="config" id="configActors" disabled>
           <legend>発言者別設定</legend>
         </fieldset>
     </div>
@@ -37,6 +44,6 @@
     <div class="main invisible">
         <div id="areaWorkspace" rows="5" cols="33"></div>
     </div>
-
+    
     <script src="./main.js"></script>
   </body>

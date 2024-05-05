@@ -18,28 +18,6 @@
     <tr><th>日付</th><th>天気</th></tr>
   </table>
 
-  <script>
-    // データ
-    var arr = [
-      {"date":"09/17", "weather":"晴れ"},
-      {"date":"09/18", "weather":"曇りのち雨"},
-      {"date":"09/19", "weather":"曇りのち晴れ"}
-    ];
-
-    // template要素を取得
-    var template = document.getElementById('template');
-
-    for(var i =0; i < arr.length; i++){
-      // template要素の内容を複製
-      var clone = template.content.cloneNode(true);
-
-      // 複製したtemplate要素にデータを挿入
-      clone.querySelector('.date').textContent = arr[i].date;
-      clone.querySelector('.weather').textContent = arr[i].weather;
-
-      // div#containerの中に追加
-      document.getElementById('container').appendChild(clone);
-    }
-  </script>
+  <script src="./test.js"></script>
 </body>
 </html>
