@@ -1,3 +1,4 @@
+//https://github.com/dry891/LogFormatter
 //https://dry891.github.io/LogFormatter/
 const elem_configActor = document.getElementById('areaTemplate_configActor');
 
@@ -138,7 +139,7 @@ document.querySelector('#btnConvert').addEventListener('click', async (e) => {
     const templates = await loadTemplates();
     const chat = makeChat(chatlog,templates.posts);
 
-    const content = posts;
+    const content = makeHTML(templates.all,title,chat,0);
     //const html = new DOMParser().parseFromString(content, "text/html");
     download(title + "_整形後",content);
 });
